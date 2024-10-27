@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dark_purple: "#433878",
+              light_purple: "#7E60BF",
+              pink: "#E4B1F0",
+              light_pink: "#FFE1FF",
+            },
+          },
+        },
+      };
+    </script>
+
+    <title>OCR Grocery List App</title>
+    <style>
+      .removeItem {
+        transform: translateX(
+          100vw
+        ); /* Moves the card to the right off-screen */
+        opacity: 0; /* Fades out the card */
+        transition: transform 0.5s ease, opacity 0.5s ease; /* Smooth transition */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="relative w-screen h-screen overflow-hidden bg-cover bg-center">
+      <svg
+        width="full"
+        height="full"
+        id="svg"
+        viewBox="0 0 1440 590"
+        xmlns="http://www.w3.org/2000/svg"
+        class="transition duration-300 ease-in-out delay-150"
+      >
+        <style>
+          .path-0 {
+            animation: pathAnim-0 4s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+          @keyframes pathAnim-0 {
+            0% {
+              d: path(
+                "M 0,600 L 0,112 C 69.51538461538462,93.73205128205129 139.03076923076924,75.46410256410256 225,79 C 310.96923076923076,82.53589743589744 413.39230769230767,107.87564102564104 486,151 C 558.6076923076923,194.12435897435896 601.4,255.03333333333325 676,297 C 750.6,338.96666666666675 857.0076923076922,361.99102564102566 949,369 C 1040.9923076923078,376.00897435897434 1118.5692307692307,367.0025641025641 1198,384 C 1277.4307692307693,400.9974358974359 1358.7153846153847,443.99871794871797 1440,487 L 1440,600 L 0,600 Z"
+              );
+            }
+            25% {
+              d: path(
+                "M 0,600 L 0,112 C 72.5205128205128,122.71923076923078 145.0410256410256,133.43846153846155 225,134 C 304.9589743589744,134.56153846153845 392.3564102564103,124.96538461538458 484,139 C 575.6435897435897,153.03461538461542 671.5333333333334,190.7 763,219 C 854.4666666666666,247.3 941.5102564102563,266.23461538461544 1003,288 C 1064.4897435897437,309.76538461538456 1100.425641025641,334.36153846153843 1169,368 C 1237.574358974359,401.63846153846157 1338.7871794871794,444.3192307692308 1440,487 L 1440,600 L 0,600 Z"
+              );
+            }
+            50% {
+              d: path(
+                "M 0,600 L 0,112 C 92.77692307692308,86.96538461538461 185.55384615384617,61.93076923076923 268,82 C 350.44615384615383,102.06923076923077 422.5615384615385,167.2423076923077 501,219 C 579.4384615384615,270.7576923076923 664.2,309.1 729,315 C 793.8,320.9 838.6384615384615,294.35769230769233 923,296 C 1007.3615384615385,297.64230769230767 1131.2461538461537,327.46923076923076 1224,364 C 1316.7538461538463,400.53076923076924 1378.376923076923,443.7653846153846 1440,487 L 1440,600 L 0,600 Z"
+              );
+            }
+            75% {
+              d: path(
+                "M 0,600 L 0,112 C 84.79999999999998,94.1423076923077 169.59999999999997,76.28461538461539 255,107 C 340.40000000000003,137.7153846153846 426.4000000000001,217.00384615384615 499,233 C 571.5999999999999,248.99615384615385 630.8,201.7 713,214 C 795.2,226.3 900.4000000000001,298.19615384615383 989,332 C 1077.6,365.80384615384617 1149.6,361.5153846153846 1222,381 C 1294.4,400.4846153846154 1367.2,443.7423076923077 1440,487 L 1440,600 L 0,600 Z"
+              );
+            }
+            100% {
+              d: path(
+                "M 0,600 L 0,112 C 69.51538461538462,93.73205128205129 139.03076923076924,75.46410256410256 225,79 C 310.96923076923076,82.53589743589744 413.39230769230767,107.87564102564104 486,151 C 558.6076923076923,194.12435897435896 601.4,255.03333333333325 676,297 C 750.6,338.96666666666675 857.0076923076922,361.99102564102566 949,369 C 1040.9923076923078,376.00897435897434 1118.5692307692307,367.0025641025641 1198,384 C 1277.4307692307693,400.9974358974359 1358.7153846153847,443.99871794871797 1440,487 L 1440,600 L 0,600 Z"
+              );
+            }
+          }
+        </style>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="5%" stop-color="#433878"></stop>
+            <stop offset="95%" stop-color="#e4b1f0"></stop>
+          </linearGradient>
+        </defs>
+        <path
+          d="M 0,600 L 0,112 C 69.51538461538462,93.73205128205129 139.03076923076924,75.46410256410256 225,79 C 310.96923076923076,82.53589743589744 413.39230769230767,107.87564102564104 486,151 C 558.6076923076923,194.12435897435896 601.4,255.03333333333325 676,297 C 750.6,338.96666666666675 857.0076923076922,361.99102564102566 949,369 C 1040.9923076923078,376.00897435897434 1118.5692307692307,367.0025641025641 1198,384 C 1277.4307692307693,400.9974358974359 1358.7153846153847,443.99871794871797 1440,487 L 1440,600 L 0,600 Z"
+          stroke="none"
+          stroke-width="0"
+          fill="url(#gradient)"
+          fill-opacity="0.4"
+          class="transition-all duration-300 ease-in-out delay-150 path-0"
+        ></path>
+        <style>
+          .path-1 {
+            animation: pathAnim-1 4s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+          @keyframes pathAnim-1 {
+            0% {
+              d: path(
+                "M 0,600 L 0,262 C 105.9897435897436,270.50897435897434 211.9794871794872,279.01794871794874 283,285 C 354.0205128205128,290.98205128205126 390.07179487179485,294.4371794871795 459,308 C 527.9282051282051,321.5628205128205 629.7333333333333,345.23333333333335 716,387 C 802.2666666666667,428.76666666666665 872.9948717948719,488.6294871794871 952,517 C 1031.0051282051281,545.3705128205129 1118.2871794871794,542.248717948718 1201,557 C 1283.7128205128206,571.751282051282 1361.8564102564103,604.375641025641 1440,637 L 1440,600 L 0,600 Z"
+              );
+            }
+            25% {
+              d: path(
+                "M 0,600 L 0,262 C 84.4974358974359,247.86282051282052 168.9948717948718,233.725641025641 245,235 C 321.0051282051282,236.274358974359 388.5179487179487,252.96025641025642 478,296 C 567.4820512820513,339.0397435897436 678.9333333333334,408.43333333333334 760,448 C 841.0666666666666,487.56666666666666 891.7487179487181,497.30641025641023 950,515 C 1008.2512820512819,532.6935897435898 1074.0717948717947,558.3410256410257 1157,580 C 1239.9282051282053,601.6589743589743 1339.9641025641026,619.3294871794872 1440,637 L 1440,600 L 0,600 Z"
+              );
+            }
+            50% {
+              d: path(
+                "M 0,600 L 0,262 C 86.26410256410256,233.94230769230768 172.52820512820512,205.8846153846154 252,219 C 331.4717948717949,232.1153846153846 404.151282051282,286.40384615384613 474,312 C 543.848717948718,337.59615384615387 610.8666666666668,334.5 704,372 C 797.1333333333332,409.5 916.3820512820512,487.5961538461538 1001,516 C 1085.6179487179488,544.4038461538462 1135.6051282051283,523.1153846153846 1203,535 C 1270.3948717948717,546.8846153846154 1355.1974358974358,591.9423076923076 1440,637 L 1440,600 L 0,600 Z"
+              );
+            }
+            75% {
+              d: path(
+                "M 0,600 L 0,262 C 95.09487179487178,276.20384615384614 190.18974358974356,290.4076923076923 261,296 C 331.81025641025644,301.5923076923077 378.33589743589755,298.57307692307694 462,313 C 545.6641025641024,327.42692307692306 666.4666666666665,359.29999999999995 749,381 C 831.5333333333335,402.70000000000005 875.797435897436,414.22692307692313 938,459 C 1000.202564102564,503.77307692307687 1080.3435897435897,581.7923076923078 1167,617 C 1253.6564102564103,652.2076923076922 1346.8282051282051,644.6038461538461 1440,637 L 1440,600 L 0,600 Z"
+              );
+            }
+            100% {
+              d: path(
+                "M 0,600 L 0,262 C 105.9897435897436,270.50897435897434 211.9794871794872,279.01794871794874 283,285 C 354.0205128205128,290.98205128205126 390.07179487179485,294.4371794871795 459,308 C 527.9282051282051,321.5628205128205 629.7333333333333,345.23333333333335 716,387 C 802.2666666666667,428.76666666666665 872.9948717948719,488.6294871794871 952,517 C 1031.0051282051281,545.3705128205129 1118.2871794871794,542.248717948718 1201,557 C 1283.7128205128206,571.751282051282 1361.8564102564103,604.375641025641 1440,637 L 1440,600 L 0,600 Z"
+              );
+            }
+          }
+        </style>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="5%" stop-color="#433878"></stop>
+            <stop offset="95%" stop-color="#e4b1f0"></stop>
+          </linearGradient>
+        </defs>
+        <path
+          d="M 0,600 L 0,262 C 105.9897435897436,270.50897435897434 211.9794871794872,279.01794871794874 283,285 C 354.0205128205128,290.98205128205126 390.07179487179485,294.4371794871795 459,308 C 527.9282051282051,321.5628205128205 629.7333333333333,345.23333333333335 716,387 C 802.2666666666667,428.76666666666665 872.9948717948719,488.6294871794871 952,517 C 1031.0051282051281,545.3705128205129 1118.2871794871794,542.248717948718 1201,557 C 1283.7128205128206,571.751282051282 1361.8564102564103,604.375641025641 1440,637 L 1440,600 L 0,600 Z"
+          stroke="none"
+          stroke-width="0"
+          fill="url(#gradient)"
+          fill-opacity="0.53"
+          class="transition-all duration-300 ease-in-out delay-150 path-1"
+        ></path>
+        <style>
+          .path-2 {
+            animation: pathAnim-2 4s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+          @keyframes pathAnim-2 {
+            0% {
+              d: path(
+                "M 0,600 L 0,412 C 71.92307692307693,370.7141025641026 143.84615384615387,329.42820512820515 226,358 C 308.15384615384613,386.57179487179485 400.53846153846143,485.00128205128215 489,542 C 577.4615384615386,598.9987179487179 662,614.5666666666666 747,615 C 832,615.4333333333334 917.4615384615383,600.7320512820513 994,613 C 1070.5384615384617,625.2679487179487 1138.1538461538464,664.5051282051282 1211,698 C 1283.8461538461536,731.4948717948718 1361.9230769230767,759.2474358974359 1440,787 L 1440,600 L 0,600 Z"
+              );
+            }
+            25% {
+              d: path(
+                "M 0,600 L 0,412 C 91.85384615384615,384.1064102564103 183.7076923076923,356.21282051282054 266,382 C 348.2923076923077,407.78717948717946 421.0230769230769,487.25512820512824 492,518 C 562.9769230769231,548.7448717948718 632.2,530.7666666666667 701,541 C 769.8,551.2333333333333 838.1769230769231,589.6782051282053 926,614 C 1013.8230769230769,638.3217948717947 1121.0923076923077,648.5205128205127 1210,675 C 1298.9076923076923,701.4794871794873 1369.4538461538461,744.2397435897436 1440,787 L 1440,600 L 0,600 Z"
+              );
+            }
+            50% {
+              d: path(
+                "M 0,600 L 0,412 C 67.98205128205129,422.85769230769233 135.96410256410257,433.7153846153846 211,445 C 286.0358974358974,456.2846153846154 368.125641025641,467.9961538461539 461,482 C 553.874358974359,496.0038461538461 657.5333333333334,512.3 743,539 C 828.4666666666666,565.7 895.7410256410258,602.803846153846 965,644 C 1034.2589743589742,685.196153846154 1105.502564102564,730.4846153846155 1185,755 C 1264.497435897436,779.5153846153845 1352.248717948718,783.2576923076922 1440,787 L 1440,600 L 0,600 Z"
+              );
+            }
+            75% {
+              d: path(
+                "M 0,600 L 0,412 C 80.74871794871797,394.91666666666663 161.49743589743593,377.8333333333333 251,385 C 340.50256410256407,392.1666666666667 438.75897435897434,423.58333333333337 510,467 C 581.2410256410257,510.41666666666663 625.4666666666667,565.8333333333333 690,588 C 754.5333333333333,610.1666666666667 839.374358974359,599.0833333333334 921,621 C 1002.625641025641,642.9166666666666 1081.0358974358974,697.8333333333334 1167,731 C 1252.9641025641026,764.1666666666666 1346.4820512820513,775.5833333333333 1440,787 L 1440,600 L 0,600 Z"
+              );
+            }
+            100% {
+              d: path(
+                "M 0,600 L 0,412 C 71.92307692307693,370.7141025641026 143.84615384615387,329.42820512820515 226,358 C 308.15384615384613,386.57179487179485 400.53846153846143,485.00128205128215 489,542 C 577.4615384615386,598.9987179487179 662,614.5666666666666 747,615 C 832,615.4333333333334 917.4615384615383,600.7320512820513 994,613 C 1070.5384615384617,625.2679487179487 1138.1538461538464,664.5051282051282 1211,698 C 1283.8461538461536,731.4948717948718 1361.9230769230767,759.2474358974359 1440,787 L 1440,600 L 0,600 Z"
+              );
+            }
+          }
+        </style>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="5%" stop-color="#433878"></stop>
+            <stop offset="95%" stop-color="#e4b1f0"></stop>
+          </linearGradient>
+        </defs>
+        <path
+          d="M 0,600 L 0,412 C 71.92307692307693,370.7141025641026 143.84615384615387,329.42820512820515 226,358 C 308.15384615384613,386.57179487179485 400.53846153846143,485.00128205128215 489,542 C 577.4615384615386,598.9987179487179 662,614.5666666666666 747,615 C 832,615.4333333333334 917.4615384615383,600.7320512820513 994,613 C 1070.5384615384617,625.2679487179487 1138.1538461538464,664.5051282051282 1211,698 C 1283.8461538461536,731.4948717948718 1361.9230769230767,759.2474358974359 1440,787 L 1440,600 L 0,600 Z"
+          stroke="none"
+          stroke-width="0"
+          fill="url(#gradient)"
+          fill-opacity="1"
+          class="transition-all duration-300 ease-in-out delay-150 path-2"
+        ></path>
+      </svg>
+      <!--................................................................................................................-->
+      <!-- The content Starts from here-->
+      <div class="px-8 absolute z-50 top-0">
+        <h2
+          class="mt-10 font-bold text-2xl md:text-3xl lg:text-4xl py-6 text-center w-full"
+        >
+          Upload Your Grocery List
+        </h2>
+
+        <!-- Image Upload Section -->
+        <form
+          class="flex flex-row gap-2 w-screen justify-center items-center py-8"
+          id="uploadForm"
+          enctype="multipart/form-data"
+        >
+          <!-- Hidden file input -->
+          <input
+            class="hidden"
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
+            placeholder="Upload your list"
+          />
+
+          <!-- Custom file upload button and file name display -->
+          <label
+            for="image"
+            class="bg-white text-gray-500 rounded-full border border-2 border-[#433878] shadow-lg w-2/3 h-10 md:h-12 md:w-1/3 lg:h-12 lg:w-1/3 flex items-center justify-center cursor-pointer"
+          >
+            <span id="fileLabel">Choose File</span>
+          </label>
+
+          <!-- Upload button -->
+          <button
+            class="-ml-20 font-bold bg-[#7E60BF] text-white border border-2 border-[#433878] hover:bg-[#433878] shadow-lg h-10 w-24 md:w-40 md:h-12 lg:w-40 lg:h-12 rounded-full"
+            type="button"
+            onclick="uploadImage()"
+          >
+            Upload
+          </button>
+        </form>
+
+        <!--   Trial Grocery List-->
+        <!-- <div class="justify-center w-full">
+          <ul>
+            <li
+              class="card bg-transparent font-bold rounded-full border-2 border border-transparent text-[#433878] w-2/3 h-10 md:h-12 md:w-1/3 lg:h-12 lg:w-1/3 flex items-center justify-center backdrop-blur-md"
+              style="
+                box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5);
+                background-color: rgba(225, 225, 225, 0.1);
+              "
+            >
+              <span class="absolute left-1/2 transform -translate-x-1/2">
+                Mad Angle
+              </span>
+              <button
+                class="absolute right-3 text-2xl"
+                onclick="vanishCard(this)"
+              >
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </button>
+            </li>
+            <li
+              class="card bg-transparent font-bold rounded-full border-2 border border-transparent text-[#433878] w-2/3 h-10 md:h-12 md:w-1/3 lg:h-12 lg:w-1/3 flex items-center justify-center backdrop-blur-md"
+              style="
+                box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5);
+                background-color: rgba(225, 225, 225, 0.1);
+              "
+            >
+              <span class="absolute left-1/2 transform -translate-x-1/2">
+                Lays
+              </span>
+              <button
+                class="absolute right-3 text-2xl"
+                onclick="vanishCard(this)"
+              >
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </button>
+            </li>
+            <li
+              class="card bg-transparent font-bold rounded-full border-2 border border-transparent text-[#433878] w-2/3 h-10 md:h-12 md:w-1/3 lg:h-12 lg:w-1/3 flex items-center justify-center backdrop-blur-md"
+              style="
+                box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5);
+                background-color: rgba(225, 225, 225, 0.1);
+              "
+            >
+              <span class="absolute left-1/2 transform -translate-x-1/2">
+                Sanitary Pad
+              </span>
+              <button
+                class="absolute right-3 text-2xl"
+                onclick="vanishCard(this)"
+              >
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </button>
+            </li>
+            <li
+              class="card bg-transparent font-bold rounded-full border-2 border border-transparent text-[#433878] w-2/3 h-10 md:h-12 md:w-1/3 lg:h-12 lg:w-1/3 flex items-center justify-center backdrop-blur-md"
+              style="
+                box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5);
+                background-color: rgba(225, 225, 225, 0.1);
+              "
+            >
+              <span class="absolute left-1/2 transform -translate-x-1/2">
+                Dairy Milk
+              </span>
+              <button
+                class="absolute right-3 text-2xl"
+                onclick="vanishCard(this)"
+              >
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </button>
+            </li>
+          </ul>
+        </div> -->
+
+        <script>
+          // Display selected file name
+          const fileInput = document.getElementById("image");
+          const fileLabel = document.getElementById("fileLabel");
+
+          fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+              fileLabel.textContent = fileInput.files[0].name;
+            } else {
+              fileLabel.textContent = "Choose File";
+            }
+          });
+
+          // Placeholder function for image upload
+          function uploadImage() {
+            const form = document.getElementById("uploadForm");
+            // You can add the logic to handle the file upload here.
+            console.log("File uploading...");
+            // For example, you might submit the form:
+            // form.submit();
+          }
+
+          function vanishCard(button) {
+            // Find the parent <li> of the clicked button
+            const card = button.closest("li");
+            card.classList.add("vanish-right");
+
+            // Optionally remove the card from the DOM after the animation
+            setTimeout(() => {
+              card.style.display = "none";
+            }, 500); // Match this to the duration of the CSS animation (500ms in this case)
+          }
+        </script>
+
+        <!-- Display extracted text -->
+        <div class="items-center text-center" id="extractedTextSection" style="display: none">
+          <h3 class="font-bold text-xl md:text-2xl lg:text-3xl text-[#433878] mt-10 py-6 text-center w-full">
+            Extracted Grocery List
+          </h3>
+              <div class="w-full">          
+                <ul class=" justify-center items-center " id="itemList"></ul>
+              </div>          
+              <button class="mt-6 font-bold bg-[#7E60BF] text-white border border-2 border-[#433878] hover:bg-[#433878] shadow-lg h-10 w-32 md:w-44 md:h-12 lg:w-44 lg:h-12 rounded-full" type="button" onclick="confirmList()">
+                Confirm List
+              </button>
+        </div>
+        <div class="items-center text-center" id="confirmedListSection" style="display: none">
+          <h3 class="font-bold text-xl text-[#433878] mt-10 py-6">Confirmed List with Amazon Links</h3>
+          <ul id="confirmedItemList" class="justify-center"></ul>
+        </div>
+
+        <script>
+          function uploadImage() {
+                const formData = new FormData();
+                const fileInput = document.getElementById("image");
+                formData.append("image", fileInput.files[0]);
+
+                fetch("/upload", {
+                  method: "POST",
+                  body: formData,
+                })
+                .then((response) => response.json())  // Ensure it's being parsed as JSON
+                .then((data) => {
+                    if (data.error) {
+                        alert(data.error);  // Handle any error returned from server
+                    } else {
+                        console.log("Data from server:", data);  // Log the received data
+                        displayExtractedText(data);  // Pass the entire data array to displayExtractedText
+                    }
+                })
+                .catch((error) => console.error("Error:", error));
+            }
+
+
+            function displayExtractedText(items) {
+                  const itemList = document.getElementById("itemList");
+
+                  itemList.innerHTML = "";  // Clear the list
+
+                  // Iterate over each item in the array and create list elements
+                  items.forEach((item, index) => {
+                      const listItem = `
+                      <li class="card bg-transparent mb-2 font-bold rounded-full border-2 border border-transparent text-[#433878] w-4/5 h-10 md:h-12 md:w-1/5 lg:h-12 lg:w-4/5 items-center justify-center backdrop-blur-md text-center pt-2"
+                        style="box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5); background-color: rgba(225, 225, 225, 0.1);">
+                        <span>${item.title} - ₹${item.price}</span>
+                        <a href="${item.url}" target="_blank" class="ml-4 text-blue-500">Buy on Amazon</a>
+                        <button class="absolute right-3 text-2xl" onclick="removeItem(this)" type="button">
+                          <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </button>
+                      </li>`;
+                      itemList.innerHTML += listItem;
+                  });
+
+                  document.getElementById("extractedTextSection").style.display = "block";  // Show the section
+              }
+
+
+
+
+
+        
+          function removeItem(button) {
+            //const li = button.parentElement;
+            //li.parentElement.removeChild(li);
+            const card = button.closest("li");
+            card.classList.add("removeItem");
+
+            // Optionally remove the card from the DOM after the animation
+            setTimeout(() => {
+              card.style.display = "none";
+            }, 500);
+            
+        }
+
+        function confirmList() {
+            const formData = new FormData(document.getElementById("uploadForm"));
+            
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const confirmedItemList = document.getElementById("confirmedItemList");
+                confirmedItemList.innerHTML = '';  // Clear existing confirmed items
+                
+                if (data.length === 0) {
+                    confirmedItemList.innerHTML = '<li>No items found</li>';
+                } else {
+                    data.forEach(item => {
+                        const listItem = `<li>
+                            ${item.item}: <a href="${item.url}" target="_blank">${item.title}</a> - ₹${item.price}
+                        </li>`;
+                        confirmedItemList.innerHTML += listItem;
+                    });
+                }
+
+                // Show the confirmed list section
+                document.getElementById("confirmedListSection").style.display = 'block';
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert('An error occurred while fetching the items');
+            });
+        }
+
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
